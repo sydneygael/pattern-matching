@@ -8,7 +8,7 @@ en particulier les fonctionnalites liees au pattern matching et aux JEPs associe
 | Module | Description |
 |---|---|
 | `jep-demo` | Exemples avant/apres autour des switch expressions, pattern matching, records, sealed classes, record patterns et pattern matching for switch. |
-| `visitor-comparison` | Exemples autour du Visitor et du pattern matching, avec un scenario Java/Kotlin/Python centre sur le calcul du total d'une facture mixte. |
+| `visitor-comparison` | Meme scenario facture en Java, Kotlin et Python : lignes heterogenes, guards metier, type de client et calcul du total. |
 
 ## Prerequis
 
@@ -87,4 +87,4 @@ Les tests JVM utilisent JUnit Jupiter et AssertJ. Les dependances de test sont
 centralisees dans le build racine et appliquees aux sous-projets Java.
 
 Le module `visitor-comparison` ajoute aussi des tests Python executables via
-`uv` et pytest.
+`uv` et pytest. Sa tache `check` couvre les tests Java, Kotlin et Python.

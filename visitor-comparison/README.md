@@ -2,8 +2,10 @@
 
 ## Application
 
-Le scenario a tester est un service qui visite une facture et calcule son total
-en tenant compte du type de client et de guards metier.
+Ce module compare le meme scenario facture en Java 25, Kotlin et Python.
+
+Le scenario teste un service qui visite une facture et calcule son total en
+tenant compte du type de client et de guards metier.
 
 Une facture (`Invoice`) contient des lignes heterogenes :
 
@@ -31,6 +33,25 @@ Les tests Java, Kotlin et Python verifient qu'une facture mixte, composee de
 produits physiques et de produits en ligne, produit le total attendu, applique
 les remises par type de client et rejette les paniers invalides.
 
+## Implementations
+
+| Langage | Approche |
+|---|---|
+| Java 25 | Visitor explicite avec `InvoiceLineVisitor`, types scelles et guards dans des `switch` avec pattern matching. |
+| Kotlin | `sealed interface` et `when` exhaustif pour remplacer le double-dispatch du Visitor Java. |
+| Python | Protocoles de typage et methode `accept` pour garder une version Visitor simple. |
+
+## Regles testees
+
+| Cas | Attendu |
+|---|---|
+| Facture `STANDARD` mixte | Total brut, sans remise. |
+| Facture `PREMIUM` >= 100 EUR | Remise de 5%. |
+| Facture `VIP` >= 200 EUR | Remise de 10%. |
+| Facture vide | Rejetee. |
+| Plus de 10 produits | Rejetee. |
+| Quantite, licences ou prix <= 0 | Rejete. |
+
 ## Versions
 
 | Langage / outil | Version |
@@ -47,14 +68,14 @@ les remises par type de client et rejette les paniers invalides.
 ```text
 visitor-comparison/
 |-- build.gradle.kts
-|-- src/main/java/      # implementation Java 25, dont le scenario InvoiceTotalService
-|-- src/test/java/      # tests Java du calcul de total de facture
-|-- src/main/kotlin/    # implementation Kotlin, dont le scenario InvoiceTotalService
-|-- src/test/kotlin/    # tests Kotlin du calcul de total de facture
+|-- src/main/java/      # implementation Java 25
+|-- src/test/java/      # tests Java
+|-- src/main/kotlin/    # implementation Kotlin
+|-- src/test/kotlin/    # tests Kotlin
 `-- python/
     |-- pyproject.toml
-    |-- src/            # implementation Python du scenario InvoiceTotalService
-    `-- tests/          # tests pytest du calcul de total de facture
+    |-- src/            # implementation Python
+    `-- tests/          # tests pytest
 ```
 
 ## Executer les tests
