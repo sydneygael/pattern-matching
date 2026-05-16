@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("org.jetbrains.kotlin.jvm") version "2.3.21" apply false
 }
 
 val junitVersion = "6.0.3"

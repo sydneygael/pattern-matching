@@ -8,6 +8,7 @@ en particulier les fonctionnalites liees au pattern matching et aux JEPs associe
 | Module | Description |
 |---|---|
 | `jep-demo` | Exemples avant/apres autour des switch expressions, pattern matching, records, sealed classes, record patterns et pattern matching for switch. |
+| `visitor-comparison` | Exemples autour du Visitor et du pattern matching, avec un scenario Java/Kotlin/Python centre sur le calcul du total d'une facture mixte. |
 
 ## Prerequis
 
@@ -23,6 +24,8 @@ les sous-projets.
 |---|---|
 | Gradle | 9.3.1 |
 | Java | 25 |
+| Kotlin JVM | 2.3.21 |
+| Python | 3.14.3 |
 | JUnit | 6.0.3 |
 | AssertJ | 3.27.7 |
 
@@ -46,6 +49,12 @@ Lancer les tests du module `jep-demo` :
 .\gradlew.bat :jep-demo:test
 ```
 
+Lancer les tests Java, Kotlin et Python du module `visitor-comparison` :
+
+```powershell
+.\gradlew.bat :visitor-comparison:check
+```
+
 Afficher la version de Gradle utilisee par le wrapper :
 
 ```powershell
@@ -61,13 +70,21 @@ Afficher la version de Gradle utilisee par le wrapper :
 |-- gradlew
 |-- gradlew.bat
 |-- gradle/
-`-- jep-demo/
-    |-- build.gradle
+|-- jep-demo/
+|   |-- build.gradle
+|   |-- README.md
+|   `-- src/
+`-- visitor-comparison/
+    |-- build.gradle.kts
     |-- README.md
-    `-- src/
+    |-- src/
+    `-- python/
 ```
 
 ## Tests
 
-Les tests utilisent JUnit Jupiter et AssertJ. Les dependances de test sont
+Les tests JVM utilisent JUnit Jupiter et AssertJ. Les dependances de test sont
 centralisees dans le build racine et appliquees aux sous-projets Java.
+
+Le module `visitor-comparison` ajoute aussi des tests Python executables via
+`uv` et pytest.

@@ -5,6 +5,13 @@ build/
 !**/src/test/**/build/
 .kotlin
 
+### Python ###
+.venv/
+.pytest_cache/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
