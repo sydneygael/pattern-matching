@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.jep.demo'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    testLogging {
+        events "passed", "failed", "skipped"
+        showStandardStreams = true
+    }
+}
