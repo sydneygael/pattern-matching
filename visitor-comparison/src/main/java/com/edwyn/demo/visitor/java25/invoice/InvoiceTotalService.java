@@ -10,10 +10,26 @@ public final class InvoiceTotalService {
     public InvoiceTotal calculate(Invoice invoice) {
         guardNotEmpty(invoice);
 
-        var summaryVisitor = new SummaryVisitor();
         var summary = invoice.lines()
             .stream()
-            .map(line -> line.accept(summaryVisitor))
+            .map(line -> switch (line) {
+                case PhysicalProduct product -> {
+                    guardPositive(product.quantity(), "Physical product quantity must be positive");
+                    guardPositive(product.unitPriceCents(), "Physical product unit price must be positive");
+                    yield new InvoiceLineSummary(
+                        product.unitPriceCents() * product.quantity(),
+                        product.quantity()
+                    );
+                }
+                case OnlineProduct product -> {
+                    guardPositive(product.licenseCount(), "Online product license count must be positive");
+                    guardPositive(product.unitPriceCents(), "Online product unit price must be positive");
+                    yield new InvoiceLineSummary(
+                        product.unitPriceCents() * product.licenseCount(),
+                        product.licenseCount()
+                    );
+                }
+            })
             .reduce(
                 new InvoiceLineSummary(0, 0),
                 (left, right) -> new InvoiceLineSummary(
@@ -65,6 +81,12 @@ public final class InvoiceTotalService {
         return amountCents * percent / 100;
     }
 
+    private static void guardPositive(int value, String message) {
+        if (value <= 0) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
     private sealed interface DiscountRule permits StandardDiscount, PremiumDiscount, VipDiscount {}
 
     private record StandardDiscount(int subtotalCents) implements DiscountRule {}
@@ -74,26 +96,4 @@ public final class InvoiceTotalService {
     private record VipDiscount(int subtotalCents) implements DiscountRule {}
 
     private record InvoiceLineSummary(int amountCents, int productCount) {}
-
-    private static final class SummaryVisitor implements InvoiceLineVisitor<InvoiceLineSummary> {
-        @Override
-        public InvoiceLineSummary visitPhysicalProduct(PhysicalProduct line) {
-            guardPositive(line.quantity(), "Physical product quantity must be positive");
-            guardPositive(line.unitPriceCents(), "Physical product unit price must be positive");
-            return new InvoiceLineSummary(line.unitPriceCents() * line.quantity(), line.quantity());
-        }
-
-        @Override
-        public InvoiceLineSummary visitOnlineProduct(OnlineProduct line) {
-            guardPositive(line.licenseCount(), "Online product license count must be positive");
-            guardPositive(line.unitPriceCents(), "Online product unit price must be positive");
-            return new InvoiceLineSummary(line.unitPriceCents() * line.licenseCount(), line.licenseCount());
-        }
-
-        private static void guardPositive(int value, String message) {
-            if (value <= 0) {
-                throw new IllegalArgumentException(message);
-            }
-        }
-    }
 }
