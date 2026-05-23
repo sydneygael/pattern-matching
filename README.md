@@ -8,6 +8,7 @@ en particulier les fonctionnalites liees au pattern matching et aux JEPs associe
 | Module | Description |
 |---|---|
 | `jep-demo` | Exemples avant/apres autour des switch expressions, pattern matching, records, sealed classes, record patterns et pattern matching for switch. |
+| `bytecode-demo` | Comparaison de bytecode entre style `instanceof` traditionnel et `switch` avec pattern matching (`invokevirtual` vs `invokedynamic`). |
 | `visitor-comparison` | Meme scenario facture en Java, Kotlin et Python : lignes heterogenes, guards metier, type de client et calcul du total. |
 
 ## Prerequis
@@ -49,6 +50,12 @@ Lancer les tests du module `jep-demo` :
 .\gradlew.bat :jep-demo:test
 ```
 
+Lancer les tests du module `bytecode-demo` :
+
+```powershell
+.\gradlew.bat :bytecode-demo:test
+```
+
 Lancer les tests Java, Kotlin et Python du module `visitor-comparison` :
 
 ```powershell
@@ -73,6 +80,9 @@ Afficher la version de Gradle utilisee par le wrapper :
 |-- jep-demo/
 |   |-- build.gradle
 |   |-- README.md
+|   `-- src/
+|-- bytecode-demo/
+|   |-- build.gradle.kts
 |   `-- src/
 `-- visitor-comparison/
     |-- build.gradle.kts

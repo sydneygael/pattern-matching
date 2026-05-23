@@ -19,6 +19,7 @@ public class Jep409_441_SealedAndSwitch {
         @Override public double area() { return Math.PI * radius * radius; }
         public double getRadius() { return radius; }
     }
+
     public static class RectangleAvant extends ShapeAvant {
         private final double w, h;
         public RectangleAvant(double w, double h) { this.w = w; this.h = h; }
