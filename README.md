@@ -8,7 +8,7 @@ en particulier les fonctionnalites liees au pattern matching et aux JEPs associe
 | Module | Description |
 |---|---|
 | `jep-demo` | Exemples avant/apres autour des switch expressions, pattern matching, records, sealed classes, record patterns et pattern matching for switch. |
-| `bytecode-demo` | Comparaison de bytecode entre style `instanceof` traditionnel et `switch` avec pattern matching (`invokevirtual` vs `invokedynamic`). |
+| `bytecode-demo` | Comparaison de bytecode entre style `instanceof` traditionnel et `switch` avec pattern matching, avec rapport detaille via `BytecodeInspector.report(...)` (taille `.class`, methodes, interfaces, opcodes). |
 | `visitor-comparison` | Meme scenario facture en Java, Kotlin et Python : lignes heterogenes, guards metier, type de client et calcul du total. |
 
 ## Prerequis
@@ -56,6 +56,12 @@ Lancer les tests du module `bytecode-demo` :
 .\gradlew.bat :bytecode-demo:test
 ```
 
+Relancer et afficher aussi les `print` du rapport bytecode :
+
+```powershell
+.\gradlew.bat :bytecode-demo:test --rerun-tasks
+```
+
 Lancer les tests Java, Kotlin et Python du module `visitor-comparison` :
 
 ```powershell
@@ -98,3 +104,8 @@ centralisees dans le build racine et appliquees aux sous-projets Java.
 
 Le module `visitor-comparison` ajoute aussi des tests Python executables via
 `uv` et pytest. Sa tache `check` couvre les tests Java, Kotlin et Python.
+
+Le module `bytecode-demo` imprime dans les tests un rapport d'inspection
+bytecode pour `AvantPatternMatching` et `ApresPatternMatching` incluant :
+taille du fichier `.class`, modificateurs, super-classe, interfaces, methodes
+declarees, et opcodes de la methode `aire`.
